@@ -25,7 +25,7 @@ namespace PokerGame.Poker
         {
             if(_flopCalled)
             {
-                throw new InvalidOperationException("Flop cannot be call twice");
+                throw new InvalidOperationException("Flop cannot be called twice");
             }
 
             _flopCalled = true;
@@ -47,7 +47,7 @@ namespace PokerGame.Poker
 
             if(_turnCalled)
             {
-                throw new InvalidOperationException("Turn cannot be call twice");
+                throw new InvalidOperationException("Turn cannot be called twice");
             }
 
             _turnCalled = true;
@@ -68,7 +68,7 @@ namespace PokerGame.Poker
 
             if (_riverCalled)
             {
-                throw new InvalidOperationException("River cannot be call twice");
+                throw new InvalidOperationException("River cannot be called twice");
             }
 
             _riverCalled = true;

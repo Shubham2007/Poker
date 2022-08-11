@@ -7,8 +7,9 @@ namespace PokerGame.Poker
     {
         private readonly List<Card> _hand;
 
-        public Player()
+        public Player(int playerId)
         {
+            Id = playerId;
             _hand = new(capacity: 2);
         }
 
@@ -22,5 +23,7 @@ namespace PokerGame.Poker
 
             return _hand;
         }
+
+        public int Id { get; }
     }
 }

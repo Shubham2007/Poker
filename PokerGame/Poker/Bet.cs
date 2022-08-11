@@ -18,6 +18,10 @@ namespace PokerGame.Poker
             _dealer = dealer ?? throw new ArgumentNullException(nameof(dealer));
         }
 
+        /// <summary>
+        /// Start the betting on the table
+        /// </summary>
+        /// <returns></returns>
         public List<Card> StartBetting()
         {
             PrintPlayersHand();
@@ -52,20 +56,14 @@ namespace PokerGame.Poker
             _cardsOnTable.Add(river);
         }
 
-        private void PrintRiver(Card river)
-        {
-            ConsoleHelper.PrintObjectToConsole(river, false);
-        }
+        private static void PrintRiver(Card river)
+            => ConsoleHelper.PrintObjectToConsole(river, false);
 
-        private void PrintTurn(Card turn)
-        {
-            ConsoleHelper.PrintObjectToConsole(turn, false);
-        }
+        private static void PrintTurn(Card turn)
+            => ConsoleHelper.PrintObjectToConsole(turn, false);
 
-        private void PrintFlop(List<Card> flop)
-        {
-            ConsoleHelper.PrintListToConsole<Card>(flop, false);
-        }
+        private static void PrintFlop(List<Card> flop)
+            => ConsoleHelper.PrintListToConsole<Card>(flop, false);
 
         private void PrintPlayersHand()
         {
