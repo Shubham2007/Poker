@@ -94,8 +94,8 @@ namespace PokerGame.Poker
             if (groupedCards.Where(x => x.Count == 3).Count() == 2 || (groupedCards.Where(x => x.Count == 3).Count() == 1 && groupedCards.Where(x => x.Count == 2).Count() <= 1))
             {
                 List<Card> best5 = new(capacity: 5);
-                List<Card> groupOf3 = cards.GroupBy(x => x.Value).Select(x => x.ToList()).OrderByDescending(x => x.Select(y => y.Value)).Where(x => x.Count == 3).First();
-                List<Card> groupOf2 = cards.Except(groupOf3).GroupBy(x => x.Value).Select(x => x.ToList()).OrderByDescending(x => x.Select(y => y.Value)).First().Take(2).ToList();
+                List<Card> groupOf3 = cards.OrderByDescending(x => x.Value).GroupBy(x => x.Value).Select(x => x.ToList()).Where(x => x.Count == 3).First();
+                List<Card> groupOf2 = cards.Except(groupOf3).OrderByDescending(x => x.Value).GroupBy(x => x.Value).Select(x => x.ToList()).First().Take(2).ToList();
                 best5 = groupOf3.Concat(groupOf2).ToList();
 
                 return (true, best5);
@@ -154,7 +154,7 @@ namespace PokerGame.Poker
             if (cards.GroupBy(x => x.Value).Any(x => x.ToList().Count >= 3))
             {
                 List<Card> best5 = new(capacity: 5);
-                List<Card> groupedCards = cards.GroupBy(x => x.Value).Select(x => x.ToList()).OrderByDescending(x => x.Select(y => y.Value)).First(x => x.ToList().Count >= 3);
+                List<Card> groupedCards = cards.OrderByDescending(x => x.Value).GroupBy(x => x.Value).Select(x => x.ToList()).First(x => x.ToList().Count >= 3);
                 List<Card> remainingHighestCards = cards.Except(groupedCards).OrderByDescending(x => x.Value).Take(5 - groupedCards.Count).ToList();
                 best5 = groupedCards.Concat(remainingHighestCards).ToList();
 
@@ -177,7 +177,7 @@ namespace PokerGame.Poker
             if (cards.GroupBy(x => x.Value).Select(x => x.ToList()).Where(x => x.Count == 2).Count() >= 2)
             {
                 List<Card> best5 = new(capacity: 5);
-                List<Card> groupedCards = cards.GroupBy(x => x.Value).Select(x => x.ToList()).OrderByDescending(x => x.Select(y => y.Value)).Where(x => x.Count == 2).Take(2).SelectMany(x => x).ToList();
+                List<Card> groupedCards = cards.OrderByDescending(x => x.Value).GroupBy(x => x.Value).Select(x => x.ToList()).Where(x => x.Count == 2).Take(2).SelectMany(x => x).ToList();
                 Card remainingHighestCard = cards.Except(groupedCards).OrderByDescending(x => x.Value).First();
                 best5 = groupedCards.Append(remainingHighestCard).ToList();
 
@@ -199,7 +199,7 @@ namespace PokerGame.Poker
             if (cards.GroupBy(x => x.Value).Any(x => x.ToList().Count >= 2))
             {
                 List<Card> best5 = new(capacity: 5);
-                List<Card> groupedCards = cards.GroupBy(x => x.Value).Select(x => x.ToList()).OrderByDescending(x => x.Select(y => (int)y.Value)).First(x => x.ToList().Count >= 2);
+                List<Card> groupedCards = cards.OrderByDescending(x => x.Value).GroupBy(x => x.Value).Select(x => x.ToList()).First(x => x.ToList().Count >= 2);
                 List<Card> remainingHighestCards = cards.Except(groupedCards).OrderByDescending(x => x.Value).Take(5 - groupedCards.Count).ToList();
                 best5 = groupedCards.Concat(remainingHighestCards).ToList();
 

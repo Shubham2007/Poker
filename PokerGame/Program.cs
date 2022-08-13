@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PokerGame
 {
@@ -14,7 +15,7 @@ namespace PokerGame
             int numberOfPlayers = Convert.ToInt32(Console.ReadLine());
 
             PokerTable table = new(numberOfPlayers);
-            table.StartGame();
+            _ = Task.Run(() => table.StartGame());
             table.GetWinners += (IReadOnlyList<PlayerWinnigPriority> winners) => ShowWinners(in winners);
             Console.WriteLine("Game started already. Winners will be annoumced shortly");
 

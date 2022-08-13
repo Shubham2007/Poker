@@ -9,6 +9,17 @@ namespace PokerGame.Poker
     {
         private readonly List<Card> _cards;
 
+        public Card this[int index]
+        {
+            get
+            {
+                if (index > 51 || index < 0)
+                    throw new ArgumentException("Index shoule be positive and less than 51"); // Since there is only 52 cards in deck(0 to 51)
+
+                return _cards[index];
+            }
+        }
+
         public Deck()
         {
             _cards = new(capacity: 52);

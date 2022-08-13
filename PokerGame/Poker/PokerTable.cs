@@ -41,13 +41,13 @@ namespace PokerGame.Poker
         private static List<PlayerWinnigPriority> DecideWinner(BetResult betResult)
         {
             List<PlayerWinnigPriority> playerWinnigs = betResult.PlayerWinnigPriorities
+                .OrderByDescending(x => x.WinningPriority)
                 .GroupBy(x => x.WinningPriority)
-                .Select(x => x.ToList())
-                .OrderByDescending(x => x.Select(x => x.WinningPriority))
+                .Select(x => x.ToList())               
                 .First()
+                .OrderByDescending(x => x.TotalValueOfCards)
                 .GroupBy(x => x.TotalValueOfCards)
                 .Select(x => x.ToList())
-                .OrderByDescending(x => x.Select(x => x.TotalValueOfCards))
                 .First();
 
             return playerWinnigs;

@@ -1,8 +1,9 @@
 ﻿using PokerGame.Enums;
+using System;
 
 namespace PokerGame.Poker
 {
-    class Card
+    class Card : IComparable
     {
         public Card(Suit suit, CardValue value)
         {
@@ -12,6 +13,17 @@ namespace PokerGame.Poker
         public Suit Suit { get; set; }
         public CardValue Value { get; set; }
 
+        public int CompareTo(object obj)
+        {
+            if (obj is not Card other)
+                throw new ArgumentException("Obj is not Card type");
+
+            if (other.Value == Value)
+                return 0;
+
+            return Value > other.Value ? 1 : -1;
+        }
+
         /// <summary>
         /// Represent current card
         /// </summary>
@@ -20,5 +32,17 @@ namespace PokerGame.Poker
         {
             return $"{Value} of {Suit}";
         }
+
+        public static bool operator ==(Card a, Card b)
+            => a.Value == b.Value;
+
+        public static bool operator !=(Card a, Card b)
+            => a.Value != b.Value;
+
+        public static bool operator <(Card a, Card b)
+            => a.Value < b.Value;
+
+        public static bool operator >(Card a, Card b)
+            => a.Value > b.Value;
     }
 }
