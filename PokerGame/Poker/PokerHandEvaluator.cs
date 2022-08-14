@@ -1,27 +1,31 @@
 ﻿using PokerGame.Enums;
+using PokerGame.Poker.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace PokerGame.Poker
 {
-    class PokerHandEvaluator
+    class PokerHandEvaluator : IPokerHandEvaluator
     {
-        private readonly List<Card> _cardsOntable;
-        private readonly List<Player> _players;
+        private List<Card> _cardsOntable;
+        private List<Player> _players;
+        private readonly IWinningStrategy _winningStrategy;
 
-        public PokerHandEvaluator(List<Card> cardsOnTable, List<Player> players)
-        {
-            _cardsOntable = cardsOnTable ?? throw new ArgumentNullException(nameof(cardsOnTable));
-            _players = players ?? throw new ArgumentNullException(nameof(players));
+        public PokerHandEvaluator(IWinningStrategy winningStrategy)
+        {          
+            _winningStrategy = winningStrategy ?? throw new ArgumentNullException(nameof(winningStrategy));
         }
 
         /// <summary>
         /// Evalute the best possible winning strategy for each player
         /// </summary>
         /// <returns></returns>
-        public BetResult Evaluate()
+        public BetResult Evaluate(List<Card> cardsOnTable, List<Player> players)
         {
+            _cardsOntable = cardsOnTable ?? throw new ArgumentNullException(nameof(cardsOnTable));
+            _players = players ?? throw new ArgumentNullException(nameof(players));
+
             List<PlayerWinnigPriority> winnigPriority = new();
 
             foreach(Player player in _players)
@@ -46,14 +50,14 @@ namespace PokerGame.Poker
             List<Card> best5 = default;
 
             // Check straight
-            (bool isStraight, List<Card> best5Straight) = WinningStrategy.CheckStraight(totalCards);
+            (bool isStraight, List<Card> best5Straight) = _winningStrategy.CheckStraight(totalCards);
             if (isStraight)
             {
                 SetWinningPriority(ref priority, WinningPriority.Straight, ref best5, best5Straight);
             }
 
             // Check flush
-            (bool isFlush, List<Card> best5Flush) = WinningStrategy.CheckFlush(totalCards);
+            (bool isFlush, List<Card> best5Flush) = _winningStrategy.CheckFlush(totalCards);
             if (isFlush)
             {
                 SetWinningPriority(ref priority, WinningPriority.Flush, ref best5, best5Flush);
@@ -62,13 +66,13 @@ namespace PokerGame.Poker
             // Check straight flush and royal flush
             if (isStraight && isFlush)
             {
-                (bool isStraightFlush, List<Card> best5SF) = WinningStrategy.CheckStraightFlush(totalCards);
+                (bool isStraightFlush, List<Card> best5SF) = _winningStrategy.CheckStraightFlush(totalCards);
                 if (isStraightFlush)
                 {
                     SetWinningPriority(ref priority, WinningPriority.StraightFlush, ref best5, best5SF);
 
                     // Best hand in the game: Royal Flush
-                    (bool isRoyalFlush, List<Card> best5RF) = WinningStrategy.CheckRoyalFlush(totalCards);
+                    (bool isRoyalFlush, List<Card> best5RF) = _winningStrategy.CheckRoyalFlush(totalCards);
                     if (isRoyalFlush)
                     {
                         SetWinningPriority(ref priority, WinningPriority.RoyalFlush, ref best5, best5RF);
@@ -78,19 +82,19 @@ namespace PokerGame.Poker
             }
 
             // Check pair
-            (bool isPair, List<Card> best5Pair) = WinningStrategy.CheckPair(totalCards);
+            (bool isPair, List<Card> best5Pair) = _winningStrategy.CheckPair(totalCards);
             if (isPair)
             {
                 SetWinningPriority(ref priority, WinningPriority.Pair, ref best5, best5Pair);
 
                 // Check three of a kind
-                (bool isThreeOfAKind, List<Card> best5TOAK) = WinningStrategy.CheckThreeOfAKind(totalCards);
+                (bool isThreeOfAKind, List<Card> best5TOAK) = _winningStrategy.CheckThreeOfAKind(totalCards);
                 if (isThreeOfAKind)
                 {
                     SetWinningPriority(ref priority, WinningPriority.ThreeOfAKind, ref best5, best5TOAK);
 
                     // Check four of a kind
-                    (bool isFourOfAKind, List<Card> best5FOAK) = WinningStrategy.CheckFourOfAKind(totalCards);
+                    (bool isFourOfAKind, List<Card> best5FOAK) = _winningStrategy.CheckFourOfAKind(totalCards);
                     if (isFourOfAKind)
                     {SetWinningPriority(ref priority, WinningPriority.FourOfAKind, ref best5, best5FOAK);
                         priority = WinningPriority.FourOfAKind;
@@ -99,13 +103,13 @@ namespace PokerGame.Poker
                 }
 
                 // Check two pairs
-                (bool isTwoPairs, List<Card> best5TwoPairs) = WinningStrategy.CheckTwoPairs(totalCards);
+                (bool isTwoPairs, List<Card> best5TwoPairs) = _winningStrategy.CheckTwoPairs(totalCards);
                 if (isTwoPairs)
                 {
                     SetWinningPriority(ref priority, WinningPriority.TwoPairs, ref best5, best5TwoPairs);
 
                     // Check full house
-                    (bool isFullhouse, List<Card> best5FullHouse) = WinningStrategy.CheckFullHouse(totalCards);
+                    (bool isFullhouse, List<Card> best5FullHouse) = _winningStrategy.CheckFullHouse(totalCards);
                     if (isFullhouse)
                     {
                         SetWinningPriority(ref priority, WinningPriority.FullHouse, ref best5, best5FullHouse);
@@ -116,7 +120,7 @@ namespace PokerGame.Poker
             //HIGH CARD (When no winning is possible)
             if(priority == default && best5 == default)
             {
-                (_, List<Card> best5HighCard) = WinningStrategy.CheckHighCard(totalCards);
+                (_, List<Card> best5HighCard) = _winningStrategy.CheckHighCard(totalCards);
                 priority = WinningPriority.HighCard;
                 best5 = best5HighCard;
             }

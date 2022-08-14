@@ -1,16 +1,17 @@
-﻿using System;
+﻿using PokerGame.Poker.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace PokerGame.Poker
 {
-    class Dealer
+    class Dealer : IDealer
     {
-        private readonly Deck _deck;
+        private readonly IDeck _deck;
         private bool _flopCalled = false;
         private bool _turnCalled = false;
         private bool _riverCalled = false;
 
-        public Dealer(Deck deck)
+        public Dealer(IDeck deck)
         {
             _deck = deck;
         }

@@ -2,16 +2,18 @@
 using System.Linq;
 using System.Collections.Generic;
 using PokerGame.Enums;
+using PokerGame.Poker.Interfaces;
+using PokerGame.Extensions;
 
 namespace PokerGame.Poker
 {
-    static class WinningStrategy
+    class WinningStrategy : IWinningStrategy
     {
         /// <summary>
         /// Check for royal flush for all 7 cards(5 cards on table + 2 cards in players hand)
         /// </summary>
         /// <param name="cards"></param>
-        public static (bool, List<Card>) CheckRoyalFlush(in List<Card> cards)
+        public (bool, List<Card>) CheckRoyalFlush(in List<Card> cards)
         {
             if (cards.Count != 7)
                 throw new ArgumentException("Cards Count should be 7");
@@ -36,7 +38,7 @@ namespace PokerGame.Poker
         /// Check for straight flush for all 7 cards(5 cards on table + 2 cards in players hand)
         /// </summary>
         /// <param name="cards"></param>
-        public static (bool, List<Card>) CheckStraightFlush(in List<Card> cards)
+        public (bool, List<Card>) CheckStraightFlush(in List<Card> cards)
         {
             if (cards.Count != 7)
                 throw new ArgumentException("Cards Count should be 7");
@@ -47,7 +49,7 @@ namespace PokerGame.Poker
             if (isFlush) 
             {
                 // Flush + Straight = Straight Flush
-                if(IsSequential(best5))
+                if(best5.IsSequential(x => (int)x.Value))
                 {
                     return (true, best5);
                 }
@@ -62,7 +64,7 @@ namespace PokerGame.Poker
         /// Check for four of a kind for all 7 cards(5 cards on table + 2 cards in players hand)
         /// </summary>
         /// <param name="cards"></param>
-        public static (bool, List<Card>) CheckFourOfAKind(in List<Card> cards)
+        public (bool, List<Card>) CheckFourOfAKind(in List<Card> cards)
         {
             if (cards.Count != 7)
                 throw new ArgumentException("Cards Count should be 7");
@@ -84,7 +86,7 @@ namespace PokerGame.Poker
         /// Check for full house for all 7 cards(5 cards on table + 2 cards in players hand)
         /// </summary>
         /// <param name="cards"></param>
-        public static (bool, List<Card>) CheckFullHouse(in List<Card> cards)
+        public (bool, List<Card>) CheckFullHouse(in List<Card> cards)
         {
             if (cards.Count != 7)
                 throw new ArgumentException("Cards Count should be 7");
@@ -108,7 +110,7 @@ namespace PokerGame.Poker
         /// Check for flush for all 7 cards(5 cards on table + 2 cards in players hand)
         /// </summary>
         /// <param name="cards"></param>
-        public static (bool, List<Card>) CheckFlush(in List<Card> cards)
+        public (bool, List<Card>) CheckFlush(in List<Card> cards)
         {
             if (cards.Count != 7)
                 throw new ArgumentException("Cards Count should be 7");
@@ -127,7 +129,7 @@ namespace PokerGame.Poker
         /// Check for straight for all 7 cards(5 cards on table + 2 cards in players hand)
         /// </summary>
         /// <param name="cards"></param>
-        public static (bool, List<Card>) CheckStraight(in List<Card> cards)
+        public (bool, List<Card>) CheckStraight(in List<Card> cards)
         {
             if (cards.Count != 7)
                 throw new ArgumentException("Cards Count should be 7");
@@ -146,7 +148,7 @@ namespace PokerGame.Poker
         /// Check for three of a kind for all 7 cards(5 cards on table + 2 cards in players hand)
         /// </summary>
         /// <param name="cards"></param>
-        public static (bool, List<Card>) CheckThreeOfAKind(in List<Card> cards)
+        public (bool, List<Card>) CheckThreeOfAKind(in List<Card> cards)
         {
             if (cards.Count != 7)
                 throw new ArgumentException("Cards Count should be 7");
@@ -168,16 +170,27 @@ namespace PokerGame.Poker
         /// Check for two pairs for all 7 cards(5 cards on table + 2 cards in players hand)
         /// </summary>
         /// <param name="cards"></param>
-        public static (bool, List<Card>) CheckTwoPairs(in List<Card> cards)
+        public (bool, List<Card>) CheckTwoPairs(in List<Card> cards)
         {
             if (cards.Count != 7)
                 throw new ArgumentException("Cards Count should be 7");
 
             // If two pairs are possible
-            if (cards.GroupBy(x => x.Value).Select(x => x.ToList()).Where(x => x.Count == 2).Count() >= 2)
+            if (cards.GroupBy(x => x.Value).Select(x => x.ToList()).Where(x => x.Count >= 2).Count() >= 2)
             {
                 List<Card> best5 = new(capacity: 5);
-                List<Card> groupedCards = cards.OrderByDescending(x => x.Value).GroupBy(x => x.Value).Select(x => x.ToList()).Where(x => x.Count == 2).Take(2).SelectMany(x => x).ToList();
+                List<Card> groupedCards = cards.OrderByDescending(x => x.Value).GroupBy(x => x.Value).Select(x => x.ToList()).Where(x => x.Count >= 2).Take(2).SelectMany(x => x).ToList();
+
+                if (groupedCards.Count == 5)
+                    return (true, groupedCards);
+
+                if (groupedCards.Count == 6)
+                {
+                    _ = groupedCards.Remove(groupedCards.Last());
+                        return (true, groupedCards);
+                }
+                    
+
                 Card remainingHighestCard = cards.Except(groupedCards).OrderByDescending(x => x.Value).First();
                 best5 = groupedCards.Append(remainingHighestCard).ToList();
 
@@ -191,7 +204,7 @@ namespace PokerGame.Poker
         /// Check for pair for all 7 cards(5 cards on table + 2 cards in players hand)
         /// </summary>
         /// <param name="cards"></param>
-        public static (bool, List<Card>) CheckPair(in List<Card> cards)
+        public (bool, List<Card>) CheckPair(in List<Card> cards)
         {
             if (cards.Count != 7)
                 throw new ArgumentException("Cards Count should be 7");
@@ -213,7 +226,7 @@ namespace PokerGame.Poker
         /// Check for high card for all 7 cards(5 cards on table + 2 cards in players hand)
         /// </summary>
         /// <param name="cards"></param>
-        public static (bool, List<Card>) CheckHighCard(in List<Card> cards)
+        public (bool, List<Card>) CheckHighCard(in List<Card> cards)
         {
             if (cards.Count != 7)
                 throw new ArgumentException("Cards Count should be 7");
@@ -227,7 +240,7 @@ namespace PokerGame.Poker
 
         private static List<List<Card>> GetAllSequences(List<Card> list)
         {
-            list = list.OrderByDescending(x => x.Value).ToList();
+            list = list.OrderBy(x => x.Value).ToList();
 
             var result = new List<List<Card>>();
             var tempList = new List<Card> { list[0] };
@@ -245,16 +258,7 @@ namespace PokerGame.Poker
             }
             result.Add(tempList);
             return result;
-        }
-
-        private static bool IsSequential(in List<Card> cards)
-            => cards.Select(x => (int)x.Value).Zip(cards.Select(x => (int)x.Value).Skip(1), (a, b) => (a + 1) == b).All(x => x);
-
-        private static CardValue GetMinimumCardValue(this List<Card> cards)
-            => cards.Min(x => x.Value);
-
-        private static CardValue GetMaximumCardValue(this List<Card> cards)
-            => cards.Max(x => x.Value);
+        }    
 
         #endregion
     }

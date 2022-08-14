@@ -1,29 +1,31 @@
 ﻿using PokerGame.Helper;
+using PokerGame.Poker.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 
 namespace PokerGame.Poker
 {
-    class Bet
+    class Bet : IBet
     {
-        private readonly List<Player> _players;
-        private readonly Dealer _dealer;
+        private List<Player> _players;
+        private IDealer _dealer;
         private List<Card> _cardsOnTable;
 
-        public Bet(List<Player> players, Dealer dealer)
+        public Bet()
         {
-            _cardsOnTable = new(capacity: 5);
-            _players = players ?? throw new ArgumentNullException(nameof(players));
-            _dealer = dealer ?? throw new ArgumentNullException(nameof(dealer));
+            _cardsOnTable = new(capacity: 5);           
         }
 
         /// <summary>
         /// Start the betting on the table
         /// </summary>
         /// <returns></returns>
-        public List<Card> StartBetting()
+        public List<Card> StartBetting(List<Player> players, IDealer dealer)
         {
+            _players = players ?? throw new ArgumentNullException(nameof(players));
+            _dealer = dealer ?? throw new ArgumentNullException(nameof(dealer));
+
             PrintPlayersHand();
 
             Thread.Sleep(1500);

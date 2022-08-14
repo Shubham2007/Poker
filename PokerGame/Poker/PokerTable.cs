@@ -1,33 +1,39 @@
-﻿using System;
+﻿using PokerGame.Poker.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace PokerGame.Poker
 {
-    class PokerTable
+    class PokerTable : IPokerTable
     {
-        private readonly int _totalPlayers;
-        private Deck _deck;
-        private Dealer _dealer;
+        private int _totalPlayers;
+        private IDealer _dealer;
         private List<Player> _players;
+        private readonly IPokerHandEvaluator _pokerHandEvaluator;
+        private readonly IBet _bet;
 
-        public PokerTable(int totalPlayers)
-        {
-            ValidateNumberOfPlayers(totalPlayers);
-            _totalPlayers = totalPlayers;
-            InitializeTable();
+        public PokerTable(IPokerHandEvaluator pokerHandEvaluator, IBet bet, IDealer dealer)
+        {           
+            _dealer = dealer;            
+            _pokerHandEvaluator = pokerHandEvaluator;
+            _bet = bet;          
         }
 
         public delegate void Winners(IReadOnlyList<PlayerWinnigPriority> winners);
 
         public event Winners GetWinners; 
 
-        public void StartGame()
+        public void StartGame(int totalPlayers)
         {
-            List<Card> finalCardsOnTable = new Bet(_players, _dealer).StartBetting();
+            ValidateNumberOfPlayers(totalPlayers);
+            _totalPlayers = totalPlayers;
+            InitializeTable();
+
+            List<Card> finalCardsOnTable = _bet.StartBetting(_players, _dealer);
 
             // Analyse Results...
-            BetResult betResult = new PokerHandEvaluator(finalCardsOnTable, _players).Evaluate();
+            BetResult betResult = _pokerHandEvaluator.Evaluate(finalCardsOnTable, _players);
 
             IReadOnlyList<PlayerWinnigPriority> winners = DecideWinner(betResult);
             RaiseWinnersEvent(winners); // Notify all subscribers about winners on current table
@@ -55,13 +61,7 @@ namespace PokerGame.Poker
 
         private void InitializeTable()
         {
-            // Creates a deck of complete 52 cards
-            _deck = new();
-
-            // Creates a dealer with a deck of cards
-            _dealer = new(_deck);
             _dealer.ShuffleCards();
-
             DistributeCardsToPlayers();
         }
 

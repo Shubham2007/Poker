@@ -1,11 +1,12 @@
 ﻿using PokerGame.Enums;
 using PokerGame.Extensions;
+using PokerGame.Poker.Interfaces;
 using System;
 using System.Collections.Generic;
 
 namespace PokerGame.Poker
 {
-    class Deck
+    class Deck : IDeck
     {
         private readonly List<Card> _cards;
 
