@@ -1,6 +1,6 @@
 ﻿namespace PokerGame.Enums
 {
-    enum CardValue
+    public enum CardValue
     {
         A = 1,
         Two,

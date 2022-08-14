@@ -1,6 +1,6 @@
 ﻿namespace PokerGame.Enums
 {
-    enum Suit
+    public enum Suit
     {
         Heart,
         Diamond,

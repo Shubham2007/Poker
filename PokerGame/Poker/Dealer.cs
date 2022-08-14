@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace PokerGame.Poker
 {
-    class Dealer : IDealer
+    public class Dealer : IDealer
     {
         private readonly IDeck _deck;
         private bool _flopCalled = false;

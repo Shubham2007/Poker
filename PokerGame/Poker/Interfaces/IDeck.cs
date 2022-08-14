@@ -1,6 +1,6 @@
 ﻿namespace PokerGame.Poker.Interfaces
 {
-    interface IDeck
+    public interface IDeck
     {
         void ShuffleCards();
         Card GetCard();

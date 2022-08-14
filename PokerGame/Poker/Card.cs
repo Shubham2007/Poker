@@ -3,7 +3,7 @@ using System;
 
 namespace PokerGame.Poker
 {
-    class Card : IComparable
+    public class Card : IComparable
     {
         public Card(Suit suit, CardValue value)
         {
