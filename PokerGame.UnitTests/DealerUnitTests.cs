@@ -54,8 +54,8 @@ namespace PokerGame.UnitTests
                 cards.Enqueue(GetRandomCard());
             }
             _deck.Setup(x => x.GetCard()).Returns(cards.Dequeue);
-            //CardComparer comparer = new(); 
-            IEqualityComparer<Card> comparer = EqualityComparerFactory.Create<Card>((x, y) => true, x => x.Value.GetHashCode()); // To comapre cards
+            CardComparer comparer = new(); // To comapre cards
+            //IEqualityComparer<Card> comparer = EqualityComparerFactory.Create<Card>((x, y) => x.Suit == y.Suit && x.Value == y.Value, x => x.Value.GetHashCode()); // To comapre cards (NOT WORKING)
 
             // Act
             List<Card> flop = _dealer.GetFlop();
