@@ -10,7 +10,7 @@ namespace PokerGame.Extensions
         //It's not a true extension method. It only works because Enum<> is a different type than System.Enum.
         public static T GetRandomValue(HashSet<T> exceptList)
         {
-            if (typeof(T) != typeof(Enum))
+            if (!typeof(T).IsEnum)
                 throw new ArgumentException("This method works for enums only");
 
             Array values = Enum.GetValues(typeof(T));
