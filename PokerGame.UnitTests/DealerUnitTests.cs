@@ -40,8 +40,7 @@ namespace PokerGame.UnitTests
 
             // Assert
             Assert.IsNotNull(card);
-            Assert.AreEqual(card.Suit, deckCard.Suit);
-            Assert.AreEqual(card.Value, deckCard.Value);
+            Assert.AreEqual(deckCard, card);
         }
 
         [TestMethod]
@@ -63,11 +62,12 @@ namespace PokerGame.UnitTests
             // Assert
             Assert.IsNotNull(flop);
             Assert.AreEqual(3, flop.Count);
+            CollectionAssert.AllItemsAreNotNull(flop);
             Assert.That.AllItemsAreDifferent(comparer, flop.ToArray());
         }
 
         [TestMethod]
-        public void GetFlop_CalledAgain_ReturnInvalidOperationException()
+        public void GetFlop_CalledAgain_Throws_InvalidOperationException()
         {
             // Arrange
             SetFlopCalledToTrue(_dealer); // Just to create a scenario that flop is called already on the same instance
@@ -76,10 +76,47 @@ namespace PokerGame.UnitTests
             Assert.ThrowsException<InvalidOperationException>(() => _dealer.GetFlop());
         }
 
+        [TestMethod]
+        public void GetTurn_WhenCalledBeforeFlop_Throws_InvalidOperationException()
+        {        
+            // Act & Assert
+            Assert.ThrowsException<InvalidOperationException>(() => _dealer.GetTurn());
+        }
+
+        [TestMethod]
+        public void GetTurn_WhenCalledAfterFlop_Return_FourthCardAfterFlop()
+        {
+            // Arrange
+            SetFlopCalledToTrue(_dealer);
+            Card deckCard = GetRandomCard();
+            _deck.Setup(x => x.GetCard()).Returns(deckCard);
+
+            // Act
+            Card card = _dealer.GetTurn();
+
+            // Assert
+            Assert.IsNotNull(card);
+            Assert.AreEqual(deckCard, card);            
+        }
+
+        [TestMethod]
+        public void GetTurn_WhenCalledAgain_Throws_InvalidOperationException()
+        {
+            // Arrange
+            SetFlopCalledToTrue(_dealer);
+            SetTurnCalledToTrue(_dealer);
+
+            // Act & Assert
+            Assert.ThrowsException<InvalidOperationException>(() => _dealer.GetTurn());
+        }
+
         #region Private Methods
 
         private static void SetFlopCalledToTrue(Dealer dealer)
             => SetPrivateProperty(dealer, "_flopCalled", true);
+
+        private static void SetTurnCalledToTrue(Dealer dealer)
+            => SetPrivateProperty(dealer, "_turnCalled", true);
 
         private static void SetPrivateProperty<T>(object obj, string propertyName, T val)
             => obj.SetPrivatePropertyValue(propertyName, val);

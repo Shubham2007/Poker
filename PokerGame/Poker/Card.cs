@@ -3,7 +3,7 @@ using System;
 
 namespace PokerGame.Poker
 {
-    public class Card : IComparable
+    public class Card : IComparable, IEquatable<Card>
     {
         public Card(Suit suit, CardValue value)
         {
@@ -23,6 +23,9 @@ namespace PokerGame.Poker
 
             return Value > other.Value ? 1 : -1;
         }
+
+        public bool Equals(Card other)
+            => other.Suit == Suit && other.Value == Value;
 
         /// <summary>
         /// Represent current card
