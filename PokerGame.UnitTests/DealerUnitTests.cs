@@ -26,7 +26,13 @@ namespace PokerGame.UnitTests
             suits = new();
             cardValues = new();
         }
-        
+
+        [TestMethod]
+        public void ShuffleCards_WhenCalled_ShuffleCardsInDeck()
+        {
+            // Act & Assert
+            Assert.That.DoesNotThrow(() => _dealer.ShuffleCards());
+        }
 
         [TestMethod]
         public void DealCard_WhenCalled_ReturnCard()
@@ -110,6 +116,52 @@ namespace PokerGame.UnitTests
             Assert.ThrowsException<InvalidOperationException>(() => _dealer.GetTurn());
         }
 
+        [TestMethod]
+        public void GetRiver_WhenCalledBeforeFlop_Throws_InvalidOperationException()
+        {
+            // Act & Assert
+            Assert.ThrowsException<InvalidOperationException>(() => _dealer.GetRiver());
+        }
+
+        [TestMethod]
+        public void GetRiver_WhenCalledAfterFlopBeforeTurn_Throws_InvalidOperationException()
+        {
+            // Arrange
+            SetFlopCalledToTrue(_dealer);
+
+            // Act & Assert
+            Assert.ThrowsException<InvalidOperationException>(() => _dealer.GetRiver());
+        }
+
+        [TestMethod]
+        public void GetRiver_WhenCalledAgainAfterFlopAndTurn_Throws_InvalidOperationException()
+        {
+            // Arrange
+            SetFlopCalledToTrue(_dealer);
+            SetTurnCalledToTrue(_dealer);
+            SetRiverCalledToTrue(_dealer);
+
+            // Act & Assert
+            Assert.ThrowsException<InvalidOperationException>(() => _dealer.GetRiver());
+        }
+
+        [TestMethod]
+        public void GetRiver_WhenCalledAfterFlopAndTurn_Return_FifthAndLastCardA()
+        {
+            // Arrange
+            SetFlopCalledToTrue(_dealer);
+            SetTurnCalledToTrue(_dealer);
+            Card deckCard = GetRandomCard();
+            _deck.Setup(x => x.GetCard()).Returns(deckCard);
+
+            // Act
+            Card card = _dealer.GetRiver();
+
+            // Assert
+            Assert.IsNotNull(card);
+            Assert.AreEqual(deckCard, card);
+        }
+
         #region Private Methods
 
         private static void SetFlopCalledToTrue(Dealer dealer)
@@ -117,6 +169,9 @@ namespace PokerGame.UnitTests
 
         private static void SetTurnCalledToTrue(Dealer dealer)
             => SetPrivateProperty(dealer, "_turnCalled", true);
+
+        private static void SetRiverCalledToTrue(Dealer dealer)
+            => SetPrivateProperty(dealer, "_riverCalled", true);
 
         private static void SetPrivateProperty<T>(object obj, string propertyName, T val)
             => obj.SetPrivatePropertyValue(propertyName, val);

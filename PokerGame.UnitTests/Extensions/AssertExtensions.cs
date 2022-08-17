@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,6 +31,18 @@ namespace PokerGame.UnitTests.Extensions
                 return;
 
             throw new AssertFailedException("All items are not different");
+        }
+
+        public static void DoesNotThrow(this Assert assert, Action action)
+        {
+            try
+            {
+                action?.Invoke();
+            }
+            catch
+            {
+                throw new AssertFailedException("Method throws an error");
+            }
         }
     }
 }
