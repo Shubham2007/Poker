@@ -28,5 +28,18 @@ namespace PokerGame.Extensions
 
             return randomValue;
         }
+
+        public static T GetRandomValue()
+        {
+            if (!typeof(T).IsEnum)
+                throw new ArgumentException("This method works for enums only");
+
+            Array values = Enum.GetValues(typeof(T));
+           
+            Random random = new();
+            T randomValue = (T)values.GetValue(random.Next(values.Length));
+
+            return randomValue;
+        }
     }
 }
