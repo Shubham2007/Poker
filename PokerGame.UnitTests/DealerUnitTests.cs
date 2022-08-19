@@ -2,12 +2,12 @@
 using Moq;
 using PokerGame.Core.Comparers;
 using PokerGame.Enums;
-using PokerGame.Extensions;
 using PokerGame.Poker;
 using PokerGame.Poker.Interfaces;
 using PokerGame.UnitTests.Extensions;
 using System;
 using System.Collections.Generic;
+using static PokerGame.UnitTests.Common.CommonUtility;
 
 namespace PokerGame.UnitTests
 {
@@ -53,13 +53,10 @@ namespace PokerGame.UnitTests
         public void GetFlop_WhenCalled_ReturnFirst3Cards()
         {
             // Arrange
-            Queue<Card> cards = new();
-            for (int index = 0; index < 3; index++)
-            {
-                cards.Enqueue(GetRandomCard());
-            }
+            Queue<Card> cards = new Common.CommonUtility().GetRandomCards(numberOfCardsRequired: 3);
+            
             _deck.Setup(x => x.GetCard()).Returns(cards.Dequeue);
-            CardComparer comparer = new(); // To comapre cards
+            CardEqualityComparer comparer = new(); // To comapre cards
             //IEqualityComparer<Card> comparer = EqualityComparerFactory.Create<Card>((x, y) => x.Suit == y.Suit && x.Value == y.Value, x => x.Value.GetHashCode()); // To comapre cards (NOT WORKING)
 
             // Act
@@ -176,17 +173,17 @@ namespace PokerGame.UnitTests
         private static void SetPrivateProperty<T>(object obj, string propertyName, T val)
             => obj.SetPrivatePropertyValue(propertyName, val);
 
-        private Card GetRandomCard()
-        {
-            Suit suit = Enum<Suit>.GetRandomValue(exceptList: suits);
-            CardValue value = Enum<CardValue>.GetRandomValue(exceptList: cardValues);
+        //private Card GetRandomCard()
+        //{
+        //    Suit suit = Enum<Suit>.GetRandomValue(exceptList: suits);
+        //    CardValue value = Enum<CardValue>.GetRandomValue(exceptList: cardValues);
 
-            suits.Add(suit);
-            cardValues.Add(value);
+        //    suits.Add(suit);
+        //    cardValues.Add(value);
 
-            Card card = new(suit, value);
-            return card;
-        }
+        //    Card card = new(suit, value);
+        //    return card;
+        //}
 
         #endregion
     }

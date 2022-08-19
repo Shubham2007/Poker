@@ -1,11 +1,10 @@
 ﻿using PokerGame.Poker;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace PokerGame.Core.Comparers
 {
-    public class CardComparer : IEqualityComparer<Card>
+    public class CardEqualityComparer : IEqualityComparer<Card>
     {
         public bool Equals(Card x, Card y)
         {

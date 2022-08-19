@@ -36,16 +36,26 @@ namespace PokerGame.Poker
             return $"{Value} of {Suit}";
         }
 
-        public static bool operator ==(Card a, Card b)
-            => a.Value == b.Value;
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Card);
+        }
 
-        public static bool operator !=(Card a, Card b)
-            => a.Value != b.Value;
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
 
-        public static bool operator <(Card a, Card b)
-            => a.Value < b.Value;
+        //public static bool operator ==(Card a, Card b)
+        //    => a.Value == b.Value;
 
-        public static bool operator >(Card a, Card b)
-            => a.Value > b.Value;
+        //public static bool operator !=(Card a, Card b)
+        //    => a.Value != b.Value;
+
+        //public static bool operator <(Card a, Card b)
+        //    => a.Value < b.Value;
+
+        //public static bool operator >(Card a, Card b)
+        //    => a.Value > b.Value;
     }
 }

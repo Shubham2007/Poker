@@ -6,20 +6,20 @@ using System.Collections.Generic;
 
 namespace PokerGame.Poker
 {
-    class Deck : IDeck
+    public class Deck : IDeck
     {
         private readonly List<Card> _cards;
 
-        public Card this[int index]
-        {
-            get
-            {
-                if (index > 51 || index < 0)
-                    throw new ArgumentException("Index shoule be positive and less than 51"); // Since there is only 52 cards in deck(0 to 51)
+        //public Card this[int index]
+        //{
+        //    get
+        //    {
+        //        if (index > 51 || index < 0)
+        //            throw new ArgumentException("Index shoule be positive and less than 51"); // Since there is only 52 cards in deck(0 to 51)
 
-                return _cards[index];
-            }
-        }
+        //        return _cards[index];
+        //    }
+        //}
 
         public Deck()
         {

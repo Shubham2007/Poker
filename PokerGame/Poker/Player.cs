@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PokerGame.Poker
 {
-    class Player
+    public class Player
     {
         private readonly List<Card> _hand;
 
@@ -13,8 +13,13 @@ namespace PokerGame.Poker
             _hand = new(capacity: 2);
         }
 
-        public void RecieveCard(Card c)
-            => _hand.Add(c);
+        public void RecieveCard(Card card)
+        {
+            if (_hand.Count >= 2)
+                throw new ArgumentException("Player cannot recieve more than 2 cards");
+
+            _hand.Add(card);
+        }
 
         public List<Card> GetHand()
         {
