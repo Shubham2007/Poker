@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using PokerGame.Core.Comparers;
-using PokerGame.Enums;
 using PokerGame.Poker;
 using PokerGame.Poker.Interfaces;
 using PokerGame.UnitTests.Extensions;
@@ -16,15 +15,11 @@ namespace PokerGame.UnitTests
     {
         private readonly Mock<IDeck> _deck;
         private readonly Dealer _dealer;
-        private readonly HashSet<Suit> suits;
-        private readonly HashSet<CardValue> cardValues;
 
         public DealerUnitTests()
         {
             _deck = new();
             _dealer = new(_deck.Object);
-            suits = new();
-            cardValues = new();
         }
 
         [TestMethod]
@@ -66,6 +61,7 @@ namespace PokerGame.UnitTests
             Assert.IsNotNull(flop);
             Assert.AreEqual(3, flop.Count);
             CollectionAssert.AllItemsAreNotNull(flop);
+            CollectionAssert.AllItemsAreUnique(flop);
             Assert.That.AllItemsAreDifferent(comparer, flop.ToArray());
         }
 
@@ -92,7 +88,7 @@ namespace PokerGame.UnitTests
             // Arrange
             SetFlopCalledToTrue(_dealer);
             Card deckCard = GetRandomCard();
-            _deck.Setup(x => x.GetCard()).Returns(deckCard);
+            _deck.Setup(x => x.GetCard()).Returns(DeepClone(deckCard));
 
             // Act
             Card card = _dealer.GetTurn();
@@ -149,7 +145,7 @@ namespace PokerGame.UnitTests
             SetFlopCalledToTrue(_dealer);
             SetTurnCalledToTrue(_dealer);
             Card deckCard = GetRandomCard();
-            _deck.Setup(x => x.GetCard()).Returns(deckCard);
+            _deck.Setup(x => x.GetCard()).Returns(DeepClone(deckCard));
 
             // Act
             Card card = _dealer.GetRiver();

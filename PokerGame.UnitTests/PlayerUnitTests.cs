@@ -59,8 +59,8 @@ namespace PokerGame.UnitTests
             // Arrange
             Queue<Card> cards = _utility.GetRandomCards(numberOfCardsRequired: 2);
             List<Card> originalCards = cards.ToList();
-            _player.RecieveCard(cards.Dequeue()); // Distribute first card
-            _player.RecieveCard(cards.Dequeue()); // Distribute second card
+            _player.RecieveCard(DeepClone(cards.Dequeue())); // Distribute first card
+            _player.RecieveCard(DeepClone(cards.Dequeue())); // Distribute second card
 
             // Act
             List<Card> playerCards = _player.GetHand();
