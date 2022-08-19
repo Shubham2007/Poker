@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using PokerGame.Core.Comparers;
 using PokerGame.Poker;
 using PokerGame.UnitTests.Extensions;
 using System;
@@ -71,6 +70,29 @@ namespace PokerGame.UnitTests
             CollectionAssert.AllItemsAreNotNull(playerCards);
             CollectionAssert.AllItemsAreUnique(playerCards);
             CollectionAssert.AreEqual(playerCards, originalCards);
+        }
+
+        [TestMethod]
+        [DynamicData(nameof(GetCardData), DynamicDataSourceType.Method)]
+        public void GetHand_WhenCalledWithLessThanTwoCards_Throws_ArgumentException(IEnumerable<Card> cards)
+        {
+            // Arrange
+            foreach (Card card in cards)
+            {
+                _player.RecieveCard(card);
+            }
+
+            // Act & Assert 
+            Assert.ThrowsException<ArgumentException>(() => _player.GetHand());
+        }
+
+        private static IEnumerable<object[]> GetCardData()
+        {
+            return new List<object[]>
+            {
+                new object[] { Array.Empty<Card>() },
+                new object[] {new List<Card>(new Common.CommonUtility().GetRandomCards(1)) }
+            };
         }
     }
 }
