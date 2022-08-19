@@ -1,9 +1,10 @@
 ﻿using PokerGame.Enums;
 using System;
+using static PokerGame.Core.Cloners.ReflectionCloning;
 
 namespace PokerGame.Poker
 {
-    public class Card : IComparable, IEquatable<Card>
+    public class Card : IComparable, IEquatable<Card>, ICloneable
     {
         public Card(Suit suit, CardValue value)
         {
@@ -44,6 +45,11 @@ namespace PokerGame.Poker
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public object Clone()
+        {
+            return Clone<Card>(this);
         }
 
         //public static bool operator ==(Card a, Card b)

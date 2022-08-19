@@ -49,6 +49,13 @@ namespace PokerGame.UnitTests.Common
             return card;
         }
 
+        public static TObject DeepClone<TObject>(TObject obj) where TObject: class, ICloneable
+        {
+            TObject clonedObject = (TObject)obj.Clone();
+            return clonedObject;
+        }
+
+        #region Private Methods
         private void Reset()
         {
             ResetFields();
@@ -65,5 +72,6 @@ namespace PokerGame.UnitTests.Common
             }
                 
         }
+        #endregion
     }
 }
