@@ -1,6 +1,8 @@
-﻿using PokerGame.Enums;
+﻿using Microsoft.AspNetCore.Mvc;
+using PokerGame.Contracts;
+using PokerGame.Core.Cloners;
+using PokerGame.Enums;
 using System;
-using static PokerGame.Core.Cloners.ReflectionCloning;
 
 namespace PokerGame.Poker
 {
@@ -49,7 +51,9 @@ namespace PokerGame.Poker
 
         public object Clone()
         {
-            return Clone<Card>(this);
+            ICloningStrategy<Card> cloningStrategy = new SerializerCloning<Card>();
+            object clonedObject = cloningStrategy.DeepClone(this);
+            return clonedObject;
         }
 
         //public static bool operator ==(Card a, Card b)

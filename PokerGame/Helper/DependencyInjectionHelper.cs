@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PokerGame.Contracts;
+using PokerGame.Core.Cloners;
 using PokerGame.Poker;
 using PokerGame.Poker.Interfaces;
 using System;
@@ -25,8 +27,8 @@ namespace PokerGame.Helper
                 .AddTransient<IPokerHandEvaluator, PokerHandEvaluator>()
                 .AddTransient<IBet, Bet>()
                 .AddTransient<IDealer, Dealer>()
-                .AddTransient<IDeck, Deck>();
-
+                .AddTransient<IDeck, Deck>()
+                .AddTransient(typeof(ICloningStrategy<>), typeof(SerializerCloning<>));
         }
 
         private static ServiceCollection GetServiceCollection()

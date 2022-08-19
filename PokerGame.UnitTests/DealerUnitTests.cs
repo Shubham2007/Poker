@@ -39,7 +39,7 @@ namespace PokerGame.UnitTests
         {
             // Arrange
             Card deckCard = GetRandomCard();
-            _deck.Setup(x => x.GetCard()).Returns(deckCard);
+            _deck.Setup(x => x.GetCard()).Returns(DeepClone(deckCard));
 
             // Act
             Card card = _dealer.DealCard();

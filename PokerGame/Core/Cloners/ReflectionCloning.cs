@@ -1,17 +1,18 @@
-﻿using System;
+﻿using PokerGame.Contracts;
+using System;
 using System.Reflection;
 
 namespace PokerGame.Core.Cloners
 {
-    class ReflectionCloning
+    class ReflectionCloning<TObject> : ICloningStrategy<TObject> where TObject : new()
     {
         /// <summary>
-        /// Return the deep clone of the given type
+        /// Return the deep clone of the given type. NOTE: Works only for classes with default constructor
         /// </summary>
         /// <typeparam name="TObject"></typeparam>
         /// <param name="originalObject"></param>
         /// <returns></returns>
-        public static TObject Clone<TObject>(TObject originalObject)
+        public TObject DeepClone(TObject originalObject) 
         {
             //step : 1 Get the type of source object and create a new instance of that type
             Type typeSource = originalObject.GetType();
@@ -43,7 +44,7 @@ namespace PokerGame.Core.Cloners
                         }
                         else
                         {
-                            property.SetValue(objTarget, Clone(objPropertyValue), null);
+                            property.SetValue(objTarget, DeepClone((TObject)objPropertyValue), null);
                         }
                     }
                 }
