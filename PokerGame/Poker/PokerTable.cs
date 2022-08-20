@@ -1,4 +1,5 @@
-﻿using PokerGame.Poker.Interfaces;
+﻿using PokerGame.Extensions;
+using PokerGame.Poker.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,14 +48,8 @@ namespace PokerGame.Poker
         private static List<PlayerWinnigPriority> DecideWinner(BetResult betResult)
         {
             List<PlayerWinnigPriority> playerWinnigs = betResult.PlayerWinnigPriorities
-                .OrderByDescending(x => x.WinningPriority)
-                .GroupBy(x => x.WinningPriority)
-                .Select(x => x.ToList())               
-                .First()
-                .OrderByDescending(x => x.TotalValueOfCards)
-                .GroupBy(x => x.TotalValueOfCards)
-                .Select(x => x.ToList())
-                .First();
+                .FirstMaxGroupedItem(x => x.WinningPriority)
+                .FirstMaxGroupedItem(x => x.TotalValueOfCards);
 
             return playerWinnigs;
         }

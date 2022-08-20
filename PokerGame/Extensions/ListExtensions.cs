@@ -36,5 +36,18 @@ namespace PokerGame.Extensions
             .Zip(list.Select(selector)
             .Skip(1), (a, b) => (a + 1) == b)
             .All(x => x);
+
+        public static List<TSource> FirstMaxGroupedItem<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        {
+            if (source == null || !source.Any())
+                throw new ArgumentNullException(nameof(source));
+
+            List<TSource> firstItemOfMaxGroup = source.OrderByDescending(keySelector)
+                .GroupBy(keySelector)
+                .Select(x => x.ToList())
+                .First();
+
+            return firstItemOfMaxGroup;
+        }
     }
 }

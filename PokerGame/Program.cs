@@ -22,7 +22,7 @@ namespace PokerGame
             IPokerHandEvaluator pokerHandEvaluator = provider.GetRequiredService<IPokerHandEvaluator>();
             IBet bet = provider.GetRequiredService<IBet>();
             IDealer dealer = provider.GetRequiredService<IDealer>();
-            PokerTable table = new PokerTable(pokerHandEvaluator, bet, dealer);
+            PokerTable table = new(pokerHandEvaluator, bet, dealer);
 
             _ = Task.Run(() => table.StartGame(numberOfPlayers));
             table.GetWinners += (IReadOnlyList<PlayerWinnigPriority> winners) => ShowWinners(in winners);
