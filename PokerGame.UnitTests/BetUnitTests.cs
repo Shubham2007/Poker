@@ -3,12 +3,13 @@ using Moq;
 using PokerGame.Core.Comparers;
 using PokerGame.Poker;
 using PokerGame.Poker.Interfaces;
+using PokerGame.UnitTests.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using static PokerGame.UnitTests.Common.CommonUtility;
 
-namespace PokerGame.UnitTests.Extensions
+namespace PokerGame.UnitTests
 {
     [TestClass]
     public class BetUnitTests
