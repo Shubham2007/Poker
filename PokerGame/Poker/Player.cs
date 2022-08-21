@@ -13,12 +13,13 @@ namespace PokerGame.Poker
             _hand = new(capacity: 2);
         }
 
-        public void RecieveCard(Card card)
+        public Player RecieveCard(Card card)
         {
             if (_hand.Count >= 2)
                 throw new ArgumentException("Player cannot recieve more than 2 cards");
 
             _hand.Add(card);
+            return this;
         }
 
         public List<Card> GetHand()

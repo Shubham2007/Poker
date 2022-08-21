@@ -71,8 +71,7 @@ namespace PokerGame.Poker
         {
             foreach(Player player in players)
             {
-                player.RecieveCard(_dealer.DealCard());
-                player.RecieveCard(_dealer.DealCard());
+                _ = player.RecieveCard(_dealer.DealCard()).RecieveCard(_dealer.DealCard());
             }
         }
 
