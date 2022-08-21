@@ -15,11 +15,13 @@ namespace PokerGame.UnitTests
     {
         private readonly Mock<IDeck> _deck;
         private readonly Dealer _dealer;
+        private readonly Common.CommonUtility _utility;
 
         public DealerUnitTests()
         {
             _deck = new();
             _dealer = new(_deck.Object);
+            _utility = new();
         }
 
         [TestMethod]
@@ -33,7 +35,7 @@ namespace PokerGame.UnitTests
         public void DealCard_WhenCalled_ReturnCard()
         {
             // Arrange
-            Card deckCard = GetRandomCard();
+            Card deckCard = _utility.GetRandomCard();
             _deck.Setup(x => x.GetCard()).Returns(DeepClone(deckCard));
 
             // Act
@@ -48,8 +50,7 @@ namespace PokerGame.UnitTests
         public void GetFlop_WhenCalled_ReturnFirst3Cards()
         {
             // Arrange
-            Queue<Card> cards = new Common.CommonUtility().GetRandomCards(numberOfCardsRequired: 3);
-            
+            Queue<Card> cards = _utility.GetRandomCards(numberOfCardsRequired: 3);            
             _deck.Setup(x => x.GetCard()).Returns(cards.Dequeue);
             CardEqualityComparer comparer = new(); // To comapre cards
             //IEqualityComparer<Card> comparer = EqualityComparerFactory.Create<Card>((x, y) => x.Suit == y.Suit && x.Value == y.Value, x => x.Value.GetHashCode()); // To comapre cards (NOT WORKING)
@@ -87,7 +88,7 @@ namespace PokerGame.UnitTests
         {
             // Arrange
             SetFlopCalledToTrue(_dealer);
-            Card deckCard = GetRandomCard();
+            Card deckCard = _utility.GetRandomCard(true);
             _deck.Setup(x => x.GetCard()).Returns(DeepClone(deckCard));
 
             // Act
@@ -144,7 +145,7 @@ namespace PokerGame.UnitTests
             // Arrange
             SetFlopCalledToTrue(_dealer);
             SetTurnCalledToTrue(_dealer);
-            Card deckCard = GetRandomCard();
+            Card deckCard = _utility.GetRandomCard(true);
             _deck.Setup(x => x.GetCard()).Returns(DeepClone(deckCard));
 
             // Act

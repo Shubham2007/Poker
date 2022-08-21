@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace PokerGame.Poker
 {
-    class Bet : IBet
+    public class Bet : IBet
     {
         private List<Player> _players;
         private IDealer _dealer;
@@ -23,7 +23,7 @@ namespace PokerGame.Poker
         /// <returns></returns>
         public List<Card> StartBetting(List<Player> players, IDealer dealer)
         {
-            _players = players ?? throw new ArgumentNullException(nameof(players));
+            _players = players ?? throw new ArgumentNullException(nameof(players)); // For future reference( When player actually bet money before every step)
             _dealer = dealer ?? throw new ArgumentNullException(nameof(dealer));
 
             PrintPlayersHand();
@@ -44,14 +44,14 @@ namespace PokerGame.Poker
             Card river = _dealer.GetRiver();
             PrintRiver(river);
 
-            GetAllCards(flop, turn, river);
+            ComposeAllCards(flop, turn, river);
 
             ConsoleHelper.PrintStringToConsole("Analyzing result...");
             Thread.Sleep(1000);
             return _cardsOnTable;
         }
 
-        private void GetAllCards(List<Card> flop, Card turn, Card river)
+        private void ComposeAllCards(List<Card> flop, Card turn, Card river)
         {
             _cardsOnTable.AddRange(flop);
             _cardsOnTable.Add(turn);

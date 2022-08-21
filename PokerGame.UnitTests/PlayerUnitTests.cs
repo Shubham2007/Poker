@@ -24,7 +24,7 @@ namespace PokerGame.UnitTests
         public void RecieveCard_WhenCalledOneTime_PlayerRecievesTheCard()
         {
             // Arrange
-            Card card = GetRandomCard();
+            Card card = _utility.GetRandomCard();
 
             // Act & Assert
             Assert.That.DoesNotThrow(() => _player.RecieveCard(card));

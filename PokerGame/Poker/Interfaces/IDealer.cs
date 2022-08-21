@@ -2,7 +2,7 @@
 
 namespace PokerGame.Poker.Interfaces
 {
-    interface IDealer
+    public interface IDealer
     {
         void ShuffleCards();
         Card DealCard();
