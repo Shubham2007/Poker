@@ -2,7 +2,7 @@
 
 namespace PokerGame.Poker.Interfaces
 {
-    interface IWinningStrategy
+    public interface IWinningStrategy
     {
         (bool, List<Card>) CheckRoyalFlush(in List<Card> cards);
         (bool, List<Card>) CheckStraightFlush(in List<Card> cards);
