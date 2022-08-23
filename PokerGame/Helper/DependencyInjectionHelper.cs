@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using PokerGame.Contracts;
 using PokerGame.Core.Cloners;
+using PokerGame.Core.Factories;
 using PokerGame.Poker;
 using PokerGame.Poker.Interfaces;
 using System;
@@ -23,7 +24,7 @@ namespace PokerGame.Helper
         private static void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddSingleton<IWinningStrategy, WinningStrategy>()
+                .AddSingleton<IWinningStrategyFactory, WinningStrategyFactory>()
                 .AddTransient<IPokerHandEvaluator, PokerHandEvaluator>()
                 .AddTransient<IBet, Bet>()
                 .AddTransient<IDealer, Dealer>()
