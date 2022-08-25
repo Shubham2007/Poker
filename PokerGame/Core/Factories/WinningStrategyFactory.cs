@@ -1,6 +1,7 @@
 ﻿using PokerGame.Contracts;
 using PokerGame.Poker;
 using PokerGame.Poker.Interfaces;
+using PokerGame.Poker.Winning;
 using System.Collections.Generic;
 using System.Linq;
 

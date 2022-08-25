@@ -45,7 +45,7 @@ namespace PokerGame.Poker
             return new BetResult { PlayerWinnigPriorities = winnigPriority };
         }
 
-        private (WinningPriority winningPriority, List<Card> best5Cards) GetWinningPriorityOfPlayer(List<Card> totalCards, IWinningStrategy winningStrategy)
+        private static (WinningPriority winningPriority, List<Card> best5Cards) GetWinningPriorityOfPlayer(List<Card> totalCards, IWinningStrategy winningStrategy)
         {
             WinningPriority priority = default;
             List<Card> best5 = default;

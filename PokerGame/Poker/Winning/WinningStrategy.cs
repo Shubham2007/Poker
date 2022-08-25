@@ -5,9 +5,9 @@ using PokerGame.Enums;
 using PokerGame.Poker.Interfaces;
 using PokerGame.Extensions;
 
-namespace PokerGame.Poker
+namespace PokerGame.Poker.Winning
 {
-    class WinningStrategy : IWinningStrategy
+    class WinningStrategy : WinningStrategyBase, IWinningStrategy
     {
         /// <summary>
         /// Check for royal flush for all 7 cards(5 cards on table + 2 cards in players hand)
@@ -235,31 +235,5 @@ namespace PokerGame.Poker
 
             return (true, best5);
         }
-
-        #region PrivateMethods
-
-        private static List<List<Card>> GetAllSequences(List<Card> list)
-        {
-            list = list.OrderBy(x => x.Value).ToList();
-
-            var result = new List<List<Card>>();
-            var tempList = new List<Card> { list[0] };
-            Card lastResult = list[0];
-            for (var index = 1; index < list.Count; index++)
-            {
-                if ((int)lastResult.Value + 1 == (int)list[index].Value)
-                    tempList.Add(list[index]);
-                else
-                {
-                    result.Add(tempList);
-                    tempList = new List<Card> { list[index] };
-                }
-                lastResult = list[index];
-            }
-            result.Add(tempList);
-            return result;
-        }    
-
-        #endregion
     }
 }
