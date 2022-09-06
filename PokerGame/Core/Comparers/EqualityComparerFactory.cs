@@ -31,7 +31,7 @@ namespace PokerGame.Core.Comparers
             return new Comparer<T>(equals, getHashCode);
         }
 
-        private class Comparer<T> : IEqualityComparer<T>
+        private sealed class Comparer<T> : IEqualityComparer<T>
         {
             private readonly Func<T, int> _getHashCode;
             private readonly Func<T, T, bool> _equals;

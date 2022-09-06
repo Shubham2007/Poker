@@ -4,7 +4,7 @@ using static System.Console;
 
 namespace PokerGame.Helper
 {
-    class ConsoleHelper
+    static class ConsoleHelper
     {
         public static void PrintStringToConsole(string text, bool newLine = true)
         {
@@ -21,7 +21,7 @@ namespace PokerGame.Helper
         public static void PrintObjectToConsole<T>(T obj, bool newLine = true)
         {
             if (obj == null)
-                throw new ArgumentNullException("Object is null");
+                throw new ArgumentNullException(nameof(obj));
 
             if (typeof(T).GetMethod("ToString").DeclaringType != typeof(T))
                 throw new InvalidOperationException("Object does not override ToString method");
@@ -32,7 +32,7 @@ namespace PokerGame.Helper
         public static void PrintListToConsole<T>(List<T> list, bool newLine = true)
         {
             if(list == null)
-                throw new ArgumentNullException("list is null");
+                throw new ArgumentNullException(nameof(list));
 
             if (typeof(T).GetMethod("ToString").DeclaringType != typeof(T))
                 throw new InvalidOperationException("Object does not override ToString method");

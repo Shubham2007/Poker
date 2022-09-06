@@ -5,7 +5,7 @@ using System;
 
 namespace PokerGame.Poker
 {
-    public class Card : IComparable, IEquatable<Card>, ICloneable
+    public sealed class Card : IComparable, IEquatable<Card>, ICloneable
     {
         public Card(Suit suit, CardValue value)
         {
@@ -27,7 +27,12 @@ namespace PokerGame.Poker
         }
 
         public bool Equals(Card other)
-            => other.Suit == Suit && other.Value == Value;
+            => other.Suit == Suit && other.Value == Value;       
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as Card);
+        }
 
         /// <summary>
         /// Represent current card
@@ -38,15 +43,7 @@ namespace PokerGame.Poker
             return $"{Value} of {Suit}";
         }
 
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as Card);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
+        public override int GetHashCode() => base.GetHashCode();
 
         public object Clone()
         {

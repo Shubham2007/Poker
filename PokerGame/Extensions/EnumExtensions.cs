@@ -5,7 +5,7 @@ namespace PokerGame.Extensions
 {
     /// <summary> Enum Extension Methods </summary>
     /// <typeparam name="T"> type of Enum </typeparam>
-    public class Enum<T> where T : struct, IConvertible
+    public static class Enum<T> where T : struct, IConvertible
     {
         //It's not a true extension method. It only works because Enum<> is a different type than System.Enum.
         public static T GetRandomValue(HashSet<T> exceptList)

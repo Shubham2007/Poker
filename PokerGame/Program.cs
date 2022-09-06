@@ -4,13 +4,14 @@ using PokerGame.Poker;
 using PokerGame.Poker.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PokerGame
 {
     class Program
     {
+        protected Program() { }
+
         static void Main(string[] args)
         {
             ServiceProvider provider = DependencyInjectionHelper.SetupDI();
@@ -34,7 +35,7 @@ namespace PokerGame
         private static void ShowWinners(in IReadOnlyList<PlayerWinnigPriority> winners)
         {
             // Considering winner cannot be empty
-            for (int index = 0; index < winners.Count(); index++)
+            for (int index = 0; index < winners.Count; index++)
             {
                 Console.WriteLine($"Winner Number: {index + 1}, Player ID: {winners[index].Player.Id}");
                 Console.WriteLine($"Best Combination: {winners[index].WinningPriority}");

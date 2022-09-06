@@ -8,7 +8,7 @@ namespace PokerGame.Poker
     class PokerTable : IPokerTable
     {
         private int _totalPlayers;
-        private IDealer _dealer;
+        private readonly IDealer _dealer;
         private List<Player> _players;
         private readonly IPokerHandEvaluator _pokerHandEvaluator;
         private readonly IBet _bet;

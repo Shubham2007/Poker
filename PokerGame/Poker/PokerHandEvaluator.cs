@@ -9,8 +9,6 @@ namespace PokerGame.Poker
 {
     class PokerHandEvaluator : IPokerHandEvaluator
     {
-        private List<Card> _cardsOntable;
-        private List<Player> _players;
         private readonly IWinningStrategyFactory _winningStrategyFactory;
 
         public PokerHandEvaluator(IWinningStrategyFactory winningStrategyFactory)
@@ -24,8 +22,8 @@ namespace PokerGame.Poker
         /// <returns></returns>
         public BetResult Evaluate(List<Card> cardsOnTable, List<Player> players)
         {
-            _cardsOntable = cardsOnTable ?? throw new ArgumentNullException(nameof(cardsOnTable));
-            _players = players ?? throw new ArgumentNullException(nameof(players));
+            List<Card> _cardsOntable = cardsOnTable ?? throw new ArgumentNullException(nameof(cardsOnTable)); // Memory Waste
+            List<Player> _players = players ?? throw new ArgumentNullException(nameof(players));
 
             List<PlayerWinnigPriority> winnigPriority = new();
 
