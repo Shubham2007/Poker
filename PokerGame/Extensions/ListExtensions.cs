@@ -37,6 +37,14 @@ namespace PokerGame.Extensions
             .Skip(1), (a, b) => (a + 1) == b)
             .All(x => x);
 
+        /// <summary>
+        /// Collection group by selector and order the groups descending and return first group items
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="keySelector"></param>
+        /// <returns></returns>
         public static List<TSource> FirstMaxGroupedItem<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
         {
             if (source == null || !source.Any())
@@ -48,6 +56,17 @@ namespace PokerGame.Extensions
                 .First();
 
             return firstItemOfMaxGroup;
+        }
+
+        /// <summary>
+        /// Throw if collection is null or empty
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items"></param>
+        public static void ValidateCollectionNotNullOrEmpty<T>(this IEnumerable<T> items)
+        {
+            if (items == null || !items.Any())
+                throw new ArgumentNullException(nameof(items), "List items are either null or empty");
         }
     }
 }

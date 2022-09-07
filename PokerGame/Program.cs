@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PokerGame.Extensions;
 using PokerGame.Helper;
 using PokerGame.Poker;
 using PokerGame.Poker.Interfaces;
@@ -26,29 +27,21 @@ namespace PokerGame
             PokerTable table = new(pokerHandEvaluator, bet, dealer);
 
             _ = Task.Run(() => table.StartGame(numberOfPlayers));
-            table.GetWinners += (IReadOnlyList<PlayerWinnigPriority> winners) => ShowWinners(in winners);
+            table.GetWinners += (IReadOnlyList<PlayerWinnigPriority> winners) => ShowWinnersAndCards(in winners);
             Console.WriteLine("Game started already. Winners will be annoumced shortly");
 
             Console.ReadKey();
         }
 
-        private static void ShowWinners(in IReadOnlyList<PlayerWinnigPriority> winners)
+        private static void ShowWinnersAndCards(in IReadOnlyList<PlayerWinnigPriority> winners)
         {
             // Considering winner cannot be empty
             for (int index = 0; index < winners.Count; index++)
             {
                 Console.WriteLine($"Winner Number: {index + 1}, Player ID: {winners[index].Player.Id}");
                 Console.WriteLine($"Best Combination: {winners[index].WinningPriority}");
-                PrintCards(winners[index].Best5Cards);
+                winners[index].Best5Cards.PrintCards();
                 Console.WriteLine("--------------------------------------------" + Environment.NewLine);
-            }
-        }
-
-        private static void PrintCards(List<Card> best5Cards)
-        {
-            foreach(Card card in best5Cards)
-            {
-                Console.Write(card);
             }
         }
     }

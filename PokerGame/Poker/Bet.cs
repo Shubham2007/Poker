@@ -10,7 +10,7 @@ namespace PokerGame.Poker
     {
         private List<Player> _players;
         private IDealer _dealer;
-        private List<Card> _cardsOnTable;
+        private readonly List<Card> _cardsOnTable;
 
         public Bet()
         {
