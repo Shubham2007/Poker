@@ -6,52 +6,52 @@ namespace PokerGame.Poker.Winning
 {
     class WinningStrategyWithAce : WinningStrategyBase, IWinningStrategy
     {
-        public (bool, List<Card>) CheckRoyalFlush(in List<Card> cards)
+        public (bool, IReadOnlyList<Card>) CheckRoyalFlush(in IReadOnlyList<Card> cards)
         {
             throw new NotImplementedException();
         }
 
-        public (bool, List<Card>) CheckStraightFlush(in List<Card> cards)
+        public (bool, IReadOnlyList<Card>) CheckStraightFlush(in IReadOnlyList<Card> cards)
         {
             throw new NotImplementedException();
         }
 
-        public (bool, List<Card>) CheckFourOfAKind(in List<Card> cards)
+        public (bool, IReadOnlyList<Card>) CheckFourOfAKind(in IReadOnlyList<Card> cards)
         {
             throw new NotImplementedException();
         }
 
-        public (bool, List<Card>) CheckFullHouse(in List<Card> cards)
+        public (bool, IReadOnlyList<Card>) CheckFullHouse(in IReadOnlyList<Card> cards)
         {
             throw new NotImplementedException();
         }
 
-        public (bool, List<Card>) CheckFlush(in List<Card> cards)
+        public (bool, IReadOnlyList<Card>) CheckFlush(in IReadOnlyList<Card> cards)
         {
             throw new NotImplementedException();
         }
 
-        public (bool, List<Card>) CheckStraight(in List<Card> cards)
+        public (bool, IReadOnlyList<Card>) CheckStraight(in IReadOnlyList<Card> cards)
         {
             throw new NotImplementedException();
         }
 
-        public (bool, List<Card>) CheckThreeOfAKind(in List<Card> cards)
+        public (bool, IReadOnlyList<Card>) CheckThreeOfAKind(in IReadOnlyList<Card> cards)
         {
             throw new NotImplementedException();
         }
 
-        public (bool, List<Card>) CheckTwoPairs(in List<Card> cards)
+        public (bool, IReadOnlyList<Card>) CheckTwoPairs(in IReadOnlyList<Card> cards)
         {
             throw new NotImplementedException();
         }
 
-        public (bool, List<Card>) CheckPair(in List<Card> cards)
+        public (bool, IReadOnlyList<Card>) CheckPair(in IReadOnlyList<Card> cards)
         {
             throw new NotImplementedException();
         }
 
-        public (bool, List<Card>) CheckHighCard(in List<Card> cards)
+        public (bool, IReadOnlyList<Card>) CheckHighCard(in IReadOnlyList<Card> cards)
         {
             throw new NotImplementedException();
         }

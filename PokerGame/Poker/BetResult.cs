@@ -14,8 +14,8 @@ namespace PokerGame.Poker
         public Player Player { get; set; }
         public WinningPriority WinningPriority { get; set; }
 
-        private List<Card> _best5Cards;
-        public List<Card> Best5Cards
+        private IReadOnlyList<Card> _best5Cards;
+        public IReadOnlyList<Card> Best5Cards
         {
             get { return _best5Cards; }
             set

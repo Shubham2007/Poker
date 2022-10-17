@@ -30,7 +30,7 @@ namespace PokerGame.Poker
             _totalPlayers = totalPlayers;
             InitializeTable();
 
-            List<Card> finalCardsOnTable = _bet.StartBetting(_players, _dealer);
+            IReadOnlyList<Card> finalCardsOnTable = _bet.StartBetting(_players, _dealer);
 
             // Analyse Results...
             BetResult betResult = _pokerHandEvaluator.Evaluate(finalCardsOnTable, _players);
@@ -44,9 +44,9 @@ namespace PokerGame.Poker
             GetWinners?.Invoke(winners);
         }
 
-        private static List<PlayerWinnigPriority> DecideWinner(BetResult betResult)
+        private static IReadOnlyList<PlayerWinnigPriority> DecideWinner(BetResult betResult)
         {
-            List<PlayerWinnigPriority> playerWinnigs = betResult.PlayerWinnigPriorities
+            IReadOnlyList<PlayerWinnigPriority> playerWinnigs = betResult.PlayerWinnigPriorities
                 .FirstMaxGroupedItem(x => x.WinningPriority)
                 .FirstMaxGroupedItem(x => x.TotalValueOfCards);
 
@@ -66,7 +66,7 @@ namespace PokerGame.Poker
             DistributeCards(_players);          
         }
 
-        private void DistributeCards(List<Player> players)
+        private void DistributeCards(IReadOnlyList<Player> players)
         {
             foreach(Player player in players)
             {

@@ -22,12 +22,12 @@ namespace PokerGame.Poker
             return this;
         }
 
-        public List<Card> GetHand()
+        public IReadOnlyList<Card> GetHand()
         {
             if (_hand.Count != 2)
                 throw new ArgumentException("Player must have 2 cards");
 
-            return _hand;
+            return _hand.AsReadOnly();
         }
 
         public int Id { get; }

@@ -4,15 +4,15 @@ namespace PokerGame.Poker.Interfaces
 {
     public interface IWinningStrategy
     {
-        (bool, List<Card>) CheckRoyalFlush(in List<Card> cards);
-        (bool, List<Card>) CheckStraightFlush(in List<Card> cards);
-        (bool, List<Card>) CheckFourOfAKind(in List<Card> cards);
-        (bool, List<Card>) CheckFullHouse(in List<Card> cards);
-        (bool, List<Card>) CheckFlush(in List<Card> cards);
-        (bool, List<Card>) CheckStraight(in List<Card> cards);
-        (bool, List<Card>) CheckThreeOfAKind(in List<Card> cards);
-        (bool, List<Card>) CheckTwoPairs(in List<Card> cards);
-        (bool, List<Card>) CheckPair(in List<Card> cards);
-        (bool, List<Card>) CheckHighCard(in List<Card> cards);
+        (bool, IReadOnlyList<Card>) CheckRoyalFlush(in IReadOnlyList<Card> cards);
+        (bool, IReadOnlyList<Card>) CheckStraightFlush(in IReadOnlyList<Card> cards);
+        (bool, IReadOnlyList<Card>) CheckFourOfAKind(in IReadOnlyList<Card> cards);
+        (bool, IReadOnlyList<Card>) CheckFullHouse(in IReadOnlyList<Card> cards);
+        (bool, IReadOnlyList<Card>) CheckFlush(in IReadOnlyList<Card> cards);
+        (bool, IReadOnlyList<Card>) CheckStraight(in IReadOnlyList<Card> cards);
+        (bool, IReadOnlyList<Card>) CheckThreeOfAKind(in IReadOnlyList<Card> cards);
+        (bool, IReadOnlyList<Card>) CheckTwoPairs(in IReadOnlyList<Card> cards);
+        (bool, IReadOnlyList<Card>) CheckPair(in IReadOnlyList<Card> cards);
+        (bool, IReadOnlyList<Card>) CheckHighCard(in IReadOnlyList<Card> cards);
     }
 }

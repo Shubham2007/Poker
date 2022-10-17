@@ -30,7 +30,7 @@ namespace PokerGame.Extensions
         /// <param name="list"></param>
         /// <param name="selector"></param>
         /// <returns></returns>
-        public static bool IsSequential<T>(this List<T> list, Func<T, int> selector)
+        public static bool IsSequential<T>(this IReadOnlyList<T> list, Func<T, int> selector)
         => list
             .Select(selector)
             .Zip(list.Select(selector)
@@ -45,7 +45,7 @@ namespace PokerGame.Extensions
         /// <param name="source"></param>
         /// <param name="keySelector"></param>
         /// <returns></returns>
-        public static List<TSource> FirstMaxGroupedItem<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+        public static IReadOnlyList<TSource> FirstMaxGroupedItem<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
         {
             if (source == null || !source.Any())
                 throw new ArgumentNullException(nameof(source));

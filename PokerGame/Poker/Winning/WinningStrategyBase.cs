@@ -6,7 +6,7 @@ namespace PokerGame.Poker.Winning
 {
     abstract class WinningStrategyBase
     {
-        protected static List<List<Card>> GetAllSequences(List<Card> list)
+        protected static List<List<Card>> GetAllSequences(IReadOnlyList<Card> list)
         {
             list = list.OrderBy(x => x.Value).ToList();
 

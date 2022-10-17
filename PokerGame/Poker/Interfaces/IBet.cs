@@ -4,6 +4,6 @@ namespace PokerGame.Poker.Interfaces
 {
     interface IBet
     {
-        List<Card> StartBetting(List<Player> players, IDealer dealer);
+        List<Card> StartBetting(IReadOnlyList<Player> players, IDealer dealer);
     }
 }

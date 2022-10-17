@@ -29,7 +29,7 @@ namespace PokerGame.Helper
             PrintStringToConsole(obj.ToString(), newLine);
         }      
 
-        public static void PrintListToConsole<T>(List<T> list, bool newLine = true)
+        public static void PrintListToConsole<T>(IReadOnlyCollection<T> list, bool newLine = true)
         {
             if(list == null)
                 throw new ArgumentNullException(nameof(list));

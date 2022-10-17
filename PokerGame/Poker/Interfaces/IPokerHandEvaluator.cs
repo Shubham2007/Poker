@@ -4,6 +4,6 @@ namespace PokerGame.Poker.Interfaces
 {
     interface IPokerHandEvaluator
     {
-        BetResult Evaluate(List<Card> cardsOnTable, List<Player> players);
+        BetResult Evaluate(IReadOnlyList<Card> cardsOnTable, IReadOnlyList<Player> players);
     }
 }

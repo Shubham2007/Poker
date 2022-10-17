@@ -8,7 +8,7 @@ namespace PokerGame.Poker
 {
     public class Bet : IBet
     {
-        private List<Player> _players;
+        private IReadOnlyList<Player> _players;
         private IDealer _dealer;
         private readonly List<Card> _cardsOnTable;
 
@@ -21,7 +21,7 @@ namespace PokerGame.Poker
         /// Start the betting on the table
         /// </summary>
         /// <returns></returns>
-        public List<Card> StartBetting(List<Player> players, IDealer dealer)
+        public List<Card> StartBetting(IReadOnlyList<Player> players, IDealer dealer)
         {
             _players = players ?? throw new ArgumentNullException(nameof(players)); // For future reference( When player actually bet money before every step)
             _dealer = dealer ?? throw new ArgumentNullException(nameof(dealer));
